@@ -1,0 +1,130 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Student {
+private:
+    string name;
+    int rollNumber;
+    string studentClass;
+    char division;
+    string dob;
+    string bloodGroup;
+    string contactAddress;
+    string phone;
+    string lisence;
+
+    static int studentCount; // Static Member
+
+public:
+    
+    Student()
+        : name("Unknown"), rollNumber(0), studentClass("None"), division('N'),
+          dob("00-00-0000"), bloodGroup("Unknown"), contactAddress("Unknown"),
+          phone("000-000-0000"), lisence("Unknown") {
+        ++studentCount;
+    }
+
+    
+    Student(const string& n, int r, const string& cls, char div, const string& db,
+            const string& bg, const string& addr, const string& ph, const string& lic)
+        : name(n), rollNumber(r), studentClass(cls), division(div), dob(db),
+          bloodGroup(bg), contactAddress(addr), phone(ph), lisence(lic) {
+        ++studentCount;
+    }
+
+    
+    Student(const Student& other)
+        : name(other.name), rollNumber(other.rollNumber), studentClass(other.studentClass),
+          division(other.division), dob(other.dob), bloodGroup(other.bloodGroup),
+          contactAddress(other.contactAddress), phone(other.phone), lisence(other.lisence) {
+        ++studentCount;
+    }
+
+    
+    ~Student() {
+        --studentCount;
+    }
+
+    
+    static int getCount() {
+        return studentCount;
+    }
+
+    
+    friend class Admin;
+
+    
+    void input() {
+        cout << "Enter Name: ";
+        getline(cin, name);
+        cout << "Enter Roll Number: ";
+        cin >> rollNumber;
+        cin.ignore();
+        cout << "Enter Class: ";
+        getline(cin, studentClass);
+        cout << "Enter Division: ";
+        cin >> division;
+        cin.ignore();
+        cout << "Enter Date of Birth (DD-MM-YYYY): ";
+        getline(cin, dob);
+        cout << "Enter Blood Group: ";
+        getline(cin, bloodGroup);
+        cout << "Enter Contact Address: ";
+        getline(cin, contactAddress);
+        cout << "Enter Phone Number: ";
+        getline(cin, phone);
+        cout << "Enter Driving License Number: ";
+        getline(cin, lisence);
+    }
+
+    
+    inline void Output() const {
+        cout << "Name: " << name << "\nRoll Number: " << rollNumber
+             << "\nClass: " << studentClass << "\nDivision: " << division
+             << "\nDate of Birth: " << dob << "\nBlood Group: " << bloodGroup
+             << "\nContact Address: " << contactAddress
+             << "\nPhone: " << phone << "\nDriving License: " << lisence << "\n\n";
+    }
+};
+
+
+int Student::studentCount = 0;
+
+
+class Admin {
+public:
+    void Display(const Student& student) {
+        cout << "Admin Access:\n";
+        student.Output();
+    }
+};
+
+int main() {
+    try {
+        
+        Student* s1 = new Student();
+        cout << "Enter the details of the first student =>\n";
+        s1->input();
+
+        Student s2("Alice", 101, "10th", 'A', "12-03-2005", "O+", "123 Street, City", "1234567890", "DL12345");
+
+        cout << "\nDisplay Student Details:\n";
+        s1->Output();
+        s2.Output();
+
+        Admin admin;
+        cout << "\nAccessing through Admin:\n";
+        admin.Display(s2);
+
+        cout << "\nCount Students: " << Student::getCount() << endl;
+
+        
+        delete s1;
+    } catch (const exception& e) {
+        cerr << "Error: " << e.what() << endl;
+    }
+    
+    cout<<"Program Exiting!"<<endl;
+    return 0;
+}

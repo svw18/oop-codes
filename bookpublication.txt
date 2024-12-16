@@ -1,0 +1,96 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Publication{
+	private:
+		string title;
+		float price;
+	public:
+		Publication() : title(""), price(0.0) {}
+		
+		void inputPublication(){
+			cout<<"Enter Title: ";
+			getline(cin, title);;
+			cout<<"Enter Price: ";
+			cin>>price;
+			cin.ignore();
+		}
+		
+		void displayPublication()const{
+			cout<<"Title: "<<title<<endl;
+			cout<<"Price: $"<<price<<endl;
+		}
+};
+
+class Book : public Publication{
+	private:
+		int pageCount;
+	public:		
+		Book () : pageCount(0) {
+		}
+		
+		void inputBook (){
+			inputPublication();
+			cout<<"Enter Page Count: ";
+			cin>>pageCount;
+			cin.ignore();
+		}
+		
+		void displayBook() const{
+			displayPublication();
+			cout<<"Page Count: "<<pageCount<<endl;
+		}
+};
+
+class Tape : public Publication{
+	private:
+		float playTime;
+	public:
+		Tape() : playTime(0.0){
+		}
+		
+		void inputTape(){
+			inputPublication();
+			cout<<"Enter Playing Time: ";
+			cin>>playTime;
+			cin.ignore();
+		}
+		
+		void displayTape () const{
+			displayPublication();
+			cout<<"Play Time: "<<playTime<<"mins"<<endl;
+		}
+};
+
+int main(){
+	try{
+		Book myBook;
+        Tape myTape;
+
+        cout << "Enter details for the book:\n";
+        myBook.inputBook();
+
+        cout << "\nEnter details for the tape:\n";
+        myTape.inputTape();
+
+        cout << "\nDisplaying Book Details:\n";
+        myBook.displayBook();
+
+        cout << "\nDisplaying Tape Details:\n";
+        myTape.displayTape();
+	}
+	catch(...){
+		cout<<"\nException caught! Resetting data to default values.\n";
+		Book defaultBook;
+        Tape defaultTape;
+
+        cout << "\nDisplaying Default Book Details:\n";
+        defaultBook.displayBook();
+
+        cout << "\nDisplaying Default Tape Details:\n";
+        defaultTape.displayTape();
+	}
+	cout<<"Program End!"<<endl;
+	return 0;
+}

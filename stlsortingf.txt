@@ -1,0 +1,65 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+using namespace std;
+
+struct PersonalRecord {
+    string name;
+    string dob;         // Date of Birth
+    string phone;
+
+    
+    bool operator<(const PersonalRecord& other) const {
+        return name < other.name;
+    }
+};
+
+
+void displayRecords(const vector<PersonalRecord>& records) {
+    for (size_t i = 0; i < records.size(); ++i) {
+        cout << "Name: " << records[i].name 
+             << ", DOB: " << records[i].dob 
+             << ", Phone: " << records[i].phone << endl;
+    }
+}
+
+
+void searchRecord(const vector<PersonalRecord>& records, const string& name) {
+    for (size_t i = 0; i < records.size(); ++i) {
+        if (records[i].name == name) {
+            cout << "Record Found: "
+                 << "Name: " << records[i].name
+                 << ", DOB: " << records[i].dob
+                 << ", Phone: " << records[i].phone << endl;
+            return;
+        }
+    }
+    cout << "Record not found." << endl;
+}
+
+int main() {
+    vector<PersonalRecord> records;
+
+    
+    records.push_back({"Alice", "12-03-1990", "1234567890"});
+    records.push_back({"Bob", "15-06-1985", "9876543210"});
+    records.push_back({"Charlie", "22-11-1992", "5432167890"});
+
+    cout << "Original Records:\n";
+    displayRecords(records);
+
+   
+    sort(records.begin(), records.end());
+    cout << "\nSorted Records:\n";
+    displayRecords(records);
+
+    
+    string nameToSearch;
+    cout << "\nEnter name to search: ";
+    cin >> nameToSearch;
+    searchRecord(records, nameToSearch);
+
+    return 0;
+}
+
